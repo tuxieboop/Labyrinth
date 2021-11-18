@@ -1,15 +1,17 @@
 import java.util.*;
 public class LabyrinthSolver{
+	ArrayList<Integer> solution = new ArrayList<Integer>();
 	
 	public LabyrinthSolver(){
 	}
 	
 	public int[] findSafeMove(int row, int col, Labyrinth l){
-		ArrayList<Integer> solution = new ArrayList<Integer>();
 		
 		if(row == l.rows - 1 && row == l.cols - 1){
+			int[] result = solution.toArray();
+			solution.clear();
 			//break out of backtracking
-			return solution.toArray();
+			return result;
 		}
 		
 		int[][] directions = {l.UP, l.DOWN, l.LEFT, l.RIGHT};
