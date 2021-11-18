@@ -1,6 +1,6 @@
 import java.util.*;
 public class LabyrinthSolver{
-	ArrayList<Integer> solution = new ArrayList<Integer>();
+	private ArrayList<Integer> solution = new ArrayList<Integer>();
 	
 	public LabyrinthSolver(){
 	}
