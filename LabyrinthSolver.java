@@ -1,6 +1,7 @@
 import java.util.*;
 public class LabyrinthSolver{
 	private ArrayList<Integer> solution = new ArrayList<Integer>();
+	private ArrayList<int[]> tracker = new ArrayList<int[]>();
 	
 	public LabyrinthSolver(){
 	}
@@ -24,14 +25,18 @@ public class LabyrinthSolver{
 			
 			if(isValid(row + x[0], col + x[1], l)){
 				solution.add(i);
+				int[] place = {row, col};
+				tracker.add(place);
 				findSafeMove(row + x[0], col + x[1], l);
 				solution.remove(solution.size() - 1);
+				tracker.remove(tracker.size() - 1);
 			}
 		}
 	}
 	
 	private boolean isValid(int row, int col, Labyrinth l){
-		return(l.isValid(row, col) && l.isStone(row, col));
+		int[] place = {row, col};
+		return(l.isValid(row, col) && l.isStone(row, col) && !tracker.contains(place));
 	}
 	
 	private int[] toArray(ArrayList<Integer> al){
