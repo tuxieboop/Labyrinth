@@ -5,13 +5,17 @@ public class LabyrinthSolver{
 	public LabyrinthSolver(){
 	}
 	
-	public int[] findSafeMove(int row, int col, Labyrinth l){
+	public int[] solve(Labyrinth l){
+		findSafeMove(0, 0, l);
+		int[] result = toArray(solution);
+		solution.clear();
+		return result;
+	}
+	
+	public void findSafeMove(int row, int col, Labyrinth l){
 		
 		if(row == l.rows - 1 && row == l.cols - 1){
-			int[] result = solution.toArray();
-			solution.clear();
-			//break out of backtracking
-			return result;
+			return;
 		}
 		
 		int[][] directions = {l.UP, l.DOWN, l.LEFT, l.RIGHT};
@@ -30,4 +34,17 @@ public class LabyrinthSolver{
 		return(l.isValid(row, col) && l.isStone(row, col));
 	}
 	
+	private int[] toArray(ArrayList<Integer> al){
+		int[] result = new int[al.size()];
+		for(int i = 0; i < result.length; i++){
+			result[i] = al.get(i);
+		}
+		return result;
+	}
+	
+	public static void main(String[] args){
+		Labyrinth l = new Labyrinth(6, 6);
+		LabyrinthSolver ls = new LabyrinthSolver();
+		System.out.println(l.solves(ls.solve(l)));
+	}
 }
