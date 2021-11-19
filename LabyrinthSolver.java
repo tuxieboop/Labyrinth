@@ -14,7 +14,7 @@ public class LabyrinthSolver{
 	
 	public void findSafeMove(int row, int col, Labyrinth l){
 		
-		if(row == l.rows - 1 && row == l.cols - 1){
+		if(row == l.rows - 1 && col == l.cols - 1){
 			return;
 		}
 		
