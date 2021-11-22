@@ -2,13 +2,17 @@ import java.util.*;
 public class LabyrinthSolver{
 	private ArrayList<Integer> solution = new ArrayList<Integer>();
 	private ArrayList<int[]> tracker = new ArrayList<int[]>();
+	private int[][] directions;
+	private Labyrinth l;
 	
-	public LabyrinthSolver(){
+	public LabyrinthSolver(Labyrinth l){
+		this.l = l;
+		directions = {l.UP, l.DOWN, l.LEFT, l.RIGHT};
 	}
 	
-	public int[] solve(Labyrinth l){
+	public int[] solve(){
 		// find safe move
-		findSafeMove(0, 0, l);
+		findSafeMove(0, 0);
 		int[] result = toArray(solution);
 		
 		// reset everything
@@ -19,24 +23,23 @@ public class LabyrinthSolver{
 		return result;
 	}
 	
-	public boolean findSafeMove(int row, int col, Labyrinth l){
+	public boolean findSafeMove(int row, int col){
+		//check if this is the end
 		if(row == l.rows - 1 && col == l.cols - 1){
 			return true;
 		}
 		
-		int[][] directions = {l.UP, l.DOWN, l.LEFT, l.RIGHT};
-		
 		// loop through all the possible directions
 		for(int i = 0; i < directions.length; i++){
-			int[] x = directions[i];
+			int[] dir = directions[i];
 			
 			// check if it works
-			if(isValid(row + x[0], col + x[1], l)){
+			if(isValid(row + dir[0], col + dir[1], l)){
 				solution.add(i);
 				int[] place = {row, col};
 				tracker.add(place);
 				
-				if(!findSafeMove(row + x[0], col + x[1], l)){
+				if(!findSafeMove(row + dir[0], col + dir[1], l)){
 					solution.remove(solution.size() - 1);
 					tracker.remove(tracker.size() - 1);
 				}
@@ -45,7 +48,7 @@ public class LabyrinthSolver{
 		return false;
 	}
 	
-	private boolean isValid(int row, int col, Labyrinth l){
+	private boolean isValid(int row, int col){
 		int[] place = {row, col};
 		return(l.isValid(row, col) && l.isStone(row, col) && !tracker.contains(place));
 	}
