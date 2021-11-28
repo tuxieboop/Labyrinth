@@ -1,13 +1,14 @@
 import java.util.*;
 public class LabyrinthSolver{
 	private ArrayList<Integer> solution = new ArrayList<Integer>();
-	private ArrayList<int[]> tracker = new ArrayList<int[]>();
-	private int[][] directions;
+	private boolean[][] tracker;
+	//private ArrayList<int[]> tracker = new ArrayList<int[]>();
 	private Labyrinth l;
 	
 	public LabyrinthSolver(Labyrinth l){
 		this.l = l;
-		directions = {l.UP, l.DOWN, l.LEFT, l.RIGHT};
+		tracker = new boolean[l.rows][l.cols];
+		setTracker();
 	}
 	
 	public int[] solve(){
@@ -17,7 +18,7 @@ public class LabyrinthSolver{
 		
 		// reset everything
 		solution.clear();
-		tracker.clear();
+		setTracker();
 		
 		// return the solution
 		return result;
@@ -29,28 +30,56 @@ public class LabyrinthSolver{
 			return true;
 		}
 		
-		// loop through all the possible directions
-		for(int i = 0; i < directions.length; i++){
-			int[] dir = directions[i];
-			
-			// check if it works
-			if(isValid(row + dir[0], col + dir[1], l)){
-				solution.add(i);
-				int[] place = {row, col};
-				tracker.add(place);
-				
-				if(!findSafeMove(row + dir[0], col + dir[1], l)){
-					solution.remove(solution.size() - 1);
-					tracker.remove(tracker.size() - 1);
-				}
+		if(solveDirection(row, col, 1))
+			return true;
+		if(solveDirection(row, col, 3))
+			return true;
+		if(solveDirection(row, col, 0))
+			return true;
+		if(solveDirection(row, col, 2))
+			return true;
+		
+		return false;
+	}
+	
+	private void setTracker(){
+		for(int i = 0; i < tracker.length; i++){
+			for(int ii = 0; ii < tracker[0].length; ii++){
+				tracker[i][ii] = false;
 			}
+		}
+	}
+	
+	private boolean solveDirection(int row, int col, int dir){
+		tracker[row][col] = true;
+		int[] direction = {0, 0};
+		
+		if(dir == 0){
+			direction[0] = -1;
+		}
+		else if(dir == 1){
+			direction[0] = 1;
+		}
+		else if(dir == 2){
+			direction[1] = -1;
+		}
+		else{
+			direction[1] = 1;
+		}
+		
+		if(isValid(row + direction[0], col + direction[1])){
+			solution.add(dir);
+			if(findSafeMove(row + direction[0], col + direction[1])){
+				return true;
+			}
+			solution.remove(solution.size() - 1);
 		}
 		return false;
 	}
 	
 	private boolean isValid(int row, int col){
 		int[] place = {row, col};
-		return(l.isValid(row, col) && l.isStone(row, col) && !tracker.contains(place));
+		return(l.isValid(row, col) && l.isStone(row, col) && !tracker[row][col]);
 	}
 	
 	private int[] toArray(ArrayList<Integer> al){
@@ -62,9 +91,9 @@ public class LabyrinthSolver{
 	}
 	
 	public static void main(String[] args){
-		Labyrinth l = new Labyrinth(4, 4);
+		Labyrinth l = new Labyrinth(10, 10);
 		l.printGrid();
-		LabyrinthSolver ls = new LabyrinthSolver();
-		System.out.println(l.solves(ls.solve(l)));
+		LabyrinthSolver ls = new LabyrinthSolver(l);
+		System.out.println(l.solves(ls.solve()));
 	}
 }
