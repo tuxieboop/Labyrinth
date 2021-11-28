@@ -2,7 +2,6 @@ import java.util.*;
 public class LabyrinthSolver{
 	private ArrayList<Integer> solution = new ArrayList<Integer>();
 	private boolean[][] tracker;
-	//private ArrayList<int[]> tracker = new ArrayList<int[]>();
 	private Labyrinth l;
 	
 	public LabyrinthSolver(Labyrinth l){
