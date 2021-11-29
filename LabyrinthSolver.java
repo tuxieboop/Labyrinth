@@ -30,16 +30,16 @@ public class LabyrinthSolver{
 		}
 		
 		// check down
-		if(solveDirection(row, col, 1))
+		if(checkDirection(row, col, 1))
 			return true;
 		// check right
-		if(solveDirection(row, col, 3))
+		if(checkDirection(row, col, 3))
 			return true;
 		// check up
-		if(solveDirection(row, col, 0))
+		if(checkDirection(row, col, 0))
 			return true;
 		// check left
-		if(solveDirection(row, col, 2))
+		if(checkDirection(row, col, 2))
 			return true;
 		
 		return false;
@@ -56,7 +56,7 @@ public class LabyrinthSolver{
 		}
 	}
 	
-	private boolean solveDirection(int row, int col, int dir){
+	private boolean checkDirection(int row, int col, int dir){
 		// set the position as visited
 		tracker[row][col] = true;
 		
