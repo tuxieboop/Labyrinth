@@ -141,7 +141,7 @@ public class LabyrinthSolver{
 	}
 	
 	/**
-	* Creates a 10 by 10 Labyrinth and a LabyrinthSolver that solves the labyrinth, then displays the labyrinth and prints a boolean representing whether the LabyrinthSolver's solution was successful.
+	* Tester. Creates a 10 by 10 Labyrinth and a LabyrinthSolver that solves the labyrinth, then displays the labyrinth and prints a boolean representing whether the LabyrinthSolver's solution was successful.
 	*/
 	public static void main(String[] args){
 		Labyrinth l = new Labyrinth(10, 10);
