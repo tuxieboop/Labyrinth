@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
-* Solves a Labyrinth and returns an array of directions if the initial position is [0, 0], the upper left corner, and the goal is the lower right corner.
+* Solves a Labyrinth and returns an array of directions.
 */
 public class LabyrinthSolver{
 	private ArrayList<Integer> solution = new ArrayList<Integer>(); // Keeps track of directions: 0 up, 1 down, 2 left, 3 right
