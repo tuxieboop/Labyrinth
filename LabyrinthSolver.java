@@ -23,7 +23,7 @@ public class LabyrinthSolver{
 	* @return an array of directions
 	*/
 	public int[] solve(){
-		// find safe move
+		// backtrack through Labyrinth, adding directions to an ArrayList
 		findSafeMove(0, 0);
 		int[] result = toArray(solution);
 		
@@ -42,7 +42,7 @@ public class LabyrinthSolver{
 	* @return boolean representing whether a solution was found
 	*/
 	private boolean findSafeMove(int row, int col){
-		// check if this is the end
+		// check if we have reached our goal
 		if(row == l.rows - 1 && col == l.cols - 1){
 			return true;
 		}
@@ -78,21 +78,17 @@ public class LabyrinthSolver{
 		int[] direction = {0, 0};
 		
 		// up
-		if(dir == 0){
+		if(dir == 0)
 			direction[0] = -1;
-		}
 		// down
-		else if(dir == 1){
+		else if(dir == 1)
 			direction[0] = 1;
-		}
 		// left
-		else if(dir == 2){
+		else if(dir == 2)
 			direction[1] = -1;
-		}
 		// right
-		else{
+		else
 			direction[1] = 1;
-		}
 		
 		// check if the new position is valid
 		if(isValid(row + direction[0], col + direction[1])){
@@ -118,7 +114,7 @@ public class LabyrinthSolver{
 	}
 	
 	/**
-	* Checks if a position is valid: whether it is within the boundaries of the labyrinth and hasn't been visited yet.
+	* Checks if a position is valid: whether it is within the boundaries of the Labyrinth and hasn't been visited yet.
 	* @param row the position's row
 	* @param col the position's column
 	* @return boolean representing whether the position is valid
