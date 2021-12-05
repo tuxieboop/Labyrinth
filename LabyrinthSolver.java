@@ -4,27 +4,26 @@ import java.util.*;
 * Solves a Labyrinth and returns an array of directions.
 */
 public class LabyrinthSolver{
-	private ArrayList<Integer> solution = new ArrayList<Integer>(); // Keeps track of directions: 0 up, 1 down, 2 left, 3 right
-	private boolean[][] tracker; // Keeps track of where the solver has been
-	private Labyrinth l; // The labyrinth to solve
+	private static ArrayList<Integer> solution = new ArrayList<Integer>(); // Keeps track of directions: 0 up, 1 down, 2 left, 3 right
+	private static boolean[][] tracker; // Keeps track of where the solver has been
+	private static Labyrinth l; // The labyrinth to solve
 	
 	/**
-	* Constructor for a LabyrinthSolver, sets up the tracker.
-	* @param l the labyrinth for this LabyrinthSolver to solve
+	* Constructor for a LabyrinthSolver
 	*/
-	public LabyrinthSolver(Labyrinth l){
-		this.l = l;
-		tracker = new boolean[l.rows][l.cols];
-		setTracker();
+	public LabyrinthSolver(){
 	}
 	
 	/**
 	* Solves a labyrinth from upper left corner to bottom right corner and returns an int[] of directions.
 	* @return an array of directions
 	*/
-	public int[] solve(){
+	public static int[] solve(Labyrinth l){
+		tracker = new boolean[l.rows][l.cols];
+		setTracker();
+		
 		// backtrack through Labyrinth, adding directions to an ArrayList
-		findSafeMove(0, 0);
+		findSafeMove(0, 0, l);
 		int[] result = toArray(solution);
 		
 		// reset everything
@@ -41,23 +40,23 @@ public class LabyrinthSolver{
 	* @param col the current position's column
 	* @return boolean representing whether a solution was found
 	*/
-	private boolean findSafeMove(int row, int col){
+	private static boolean findSafeMove(int row, int col, Labyrinth l){
 		// check if we have reached our goal
 		if(row == l.rows - 1 && col == l.cols - 1){
 			return true;
 		}
 		
 		// check down
-		if(checkDirection(row, col, 1))
+		if(checkDirection(row, col, 1, l))
 			return true;
 		// check right
-		if(checkDirection(row, col, 3))
+		if(checkDirection(row, col, 3, l))
 			return true;
 		// check up
-		if(checkDirection(row, col, 0))
+		if(checkDirection(row, col, 0, l))
 			return true;
 		// check left
-		if(checkDirection(row, col, 2))
+		if(checkDirection(row, col, 2, l))
 			return true;
 		
 		return false;
@@ -70,7 +69,7 @@ public class LabyrinthSolver{
 	* @param dir the direction to check
 	* @return boolean representing whether the direction is valid & leads to a solution
 	*/
-	private boolean checkDirection(int row, int col, int dir){
+	private static boolean checkDirection(int row, int col, int dir, Labyrinth l){
 		// set the position as visited
 		tracker[row][col] = true;
 		
@@ -91,10 +90,10 @@ public class LabyrinthSolver{
 			direction[1] = 1;
 		
 		// check if the new position is valid
-		if(isValid(row + direction[0], col + direction[1])){
+		if(isValid(row + direction[0], col + direction[1], l)){
 			solution.add(dir);
 			// check if the new position leads to a solution
-			if(findSafeMove(row + direction[0], col + direction[1])){
+			if(findSafeMove(row + direction[0], col + direction[1], l)){
 				return true;
 			}
 			solution.remove(solution.size() - 1);
@@ -105,7 +104,7 @@ public class LabyrinthSolver{
 	/**
 	* resets the tracker to all false
 	*/
-	private void setTracker(){
+	private static void setTracker(){
 		for(int i = 0; i < tracker.length; i++){
 			for(int ii = 0; ii < tracker[0].length; ii++){
 				tracker[i][ii] = false;
@@ -119,7 +118,7 @@ public class LabyrinthSolver{
 	* @param col the position's column
 	* @return boolean representing whether the position is valid
 	*/
-	private boolean isValid(int row, int col){
+	private static boolean isValid(int row, int col, Labyrinth l){
 		return(l.isValid(row, col) && l.isStone(row, col) && !tracker[row][col]);
 	}
 	
@@ -128,7 +127,7 @@ public class LabyrinthSolver{
 	* @param al the ArrayList to convert
 	* @return the converted int[]
 	*/
-	private int[] toArray(ArrayList<Integer> al){
+	private static int[] toArray(ArrayList<Integer> al){
 		int[] result = new int[al.size()];
 		for(int i = 0; i < result.length; i++){
 			result[i] = al.get(i);
@@ -142,7 +141,6 @@ public class LabyrinthSolver{
 	public static void main(String[] args){
 		Labyrinth l = new Labyrinth(10, 10);
 		l.printGrid();
-		LabyrinthSolver ls = new LabyrinthSolver(l);
-		System.out.println(l.solves(ls.solve()));
+		System.out.println(l.solves(LabyrinthSolver.solve(l)));
 	}
 }
